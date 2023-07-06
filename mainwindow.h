@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QWheelEvent>
+#include <QLabel>
+#include "timermanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,6 +21,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    TimerManager* timerManager;
+    bool IsCursorOnLabel(QPoint p, QLabel* lb);
 
 };
 #endif // MAINWINDOW_H

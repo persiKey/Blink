@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    timerManager = new TimerManager(ui->minutesLabel,ui->secondsLabel);
     float scaleFactor = QGuiApplication::primaryScreen()->logicalDotsPerInch() / 96.0;
 
     this->resize(constants::WINDOWS_WIDTH * scaleFactor,
@@ -20,30 +20,28 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::wheelEvent(QWheelEvent* e)
 {
-    QScreen *screen = QGuiApplication::primaryScreen();
-
-    for(auto s : QGuiApplication::screens())
-    {
-        qDebug() << "Scale factor:" << s->logicalDotsPerInch() / 96.0 * 100;
-    }
-    qDebug() << "primary Scale factor:" << QGuiApplication::primaryScreen()->logicalDotsPerInch();
-
-    if(e->pos().x() > ui->minutesLabel->pos().x() &&
-       e->pos().x() < ui->minutesLabel->pos().x() + ui->minutesLabel->size().width() &&
-       e->pos().y() > ui->minutesLabel->pos().y() &&
-       e->pos().y() < ui->minutesLabel->pos().y() + ui->minutesLabel->size().height())
-    {
-        static int counter = 0;
-        qDebug() << "Counter " << counter++ << '\n';
-        //qDebug() << e->pos().x() << " " << e->pos().y();
-        qDebug() << e->angleDelta();
-        // + UP
-        // - DOWN
-    }
-
+    bool IsUp = e->angleDelta().y() > 0;
+    auto cursorPos = e->pos();
+    if(IsCursorOnLabel(cursorPos,ui->minutesLabel))
+        timerManager->ChangeMinutes(IsUp);
+    else if(IsCursorOnLabel(cursorPos,ui->secondsLabel))
+        timerManager->ChangeSeconds(IsUp);
 }
 
 MainWindow::~MainWindow()
 {
+    delete timerManager;
     delete ui;
+}
+
+bool MainWindow::IsCursorOnLabel(QPoint p, QLabel *lb)
+{
+    auto label_x = lb->pos().x();
+    auto label_y = lb->pos().y();
+    auto cursor_x = p.x();
+    auto cursor_y = p.y();
+    return cursor_x > label_x &&
+            cursor_x < label_x + lb->size().width() &&
+            cursor_y > label_y &&
+            cursor_y < label_y + lb->size().height();
 }
