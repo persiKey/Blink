@@ -5,13 +5,13 @@ Minute::Minute(int start_value, QLabel *lb) : TimeLabelCounter(start_value, 1, 0
 
 }
 
-Second::Second(int start_value, QLabel *lb) : TimeLabelCounter(start_value, 5, 0, 60, lb)
+Second::Second(int start_value, QLabel *lb, TimeLabelCounter* nextGreater) : TimeLabelCounter(start_value, 5, 0, 60, lb, nextGreater)
 {
 
 }
 
-TimeLabelCounter::TimeLabelCounter(int value, int step, int min_value, int max_value, QLabel *lb) :
-    Incrementable<int>(value, step, min_value, max_value), _lb(lb)
+TimeLabelCounter::TimeLabelCounter(int value, int step, int min_value, int max_value, QLabel *lb, TimeLabelCounter* nextGreater) :
+    Incrementable<int>(value, step, min_value, max_value), _lb(lb), _nextGreater(nextGreater)
 {
     SyncDisplayString();
 }
@@ -25,9 +25,19 @@ void TimeLabelCounter::SyncDisplayString()
 void TimeLabelCounter::PerformAction(bool IsUp)
 {
     if(IsUp)
-        Increment();
+    {
+        if(Increment() && _nextGreater)
+        {
+            _nextGreater->PerformAction(IsUp);
+        }
+    }
     else
-        Decrement();
+    {
+        if(Decrement() && _nextGreater)
+        {
+            _nextGreater->PerformAction(IsUp);
+        }
+    }
     SyncDisplayString();
 }
 
@@ -45,7 +55,7 @@ QString TimeLabelCounter::ConverFromIntToDisplayString(int value)
 }
 
 
-TimerManager::TimerManager(QLabel* lb_min, QLabel* lb_sec) : minutes(5, lb_min), seconds(30, lb_sec)
+TimerManager::TimerManager(QLabel* lb_min, QLabel* lb_sec) : minutes(5, lb_min), seconds(30, lb_sec, &minutes)
 {
 
 }

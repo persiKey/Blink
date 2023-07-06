@@ -20,21 +20,33 @@ public:
         if(step < 0)
             throw std::invalid_argument("_step must be bigger than 0");
     }
-    void virtual Increment()
+
+    bool virtual Increment()
     {
+        bool isJumpedOver = false;
         T next_value = _value + _step;
         if(next_value >= _max_value)
+        {
             _value = next_value % _step;
+            isJumpedOver = true;
+        }
         else
             _value = next_value;
+        return isJumpedOver;
     }
-    void virtual Decrement()
+    bool virtual Decrement()
     {
+        bool isJumpedOver = false;
         T next_value = _value - _step;
         if(next_value < _min_value)
+        {
+            isJumpedOver = true;
             _value = _max_value - _step;
+        }
         else
             _value = next_value;
+
+        return isJumpedOver;
     }
     T Value()
     {
@@ -48,8 +60,9 @@ protected:
     QLabel *_lb;
     QString ConverFromIntToDisplayString(int value);
     void SyncDisplayString();
+    TimeLabelCounter* _nextGreater;
 public:
-    TimeLabelCounter(int value, int step, int min_value, int max_value, QLabel *lb);
+    TimeLabelCounter(int value, int step, int min_value, int max_value, QLabel *lb, TimeLabelCounter* nextGreater = nullptr);
     void PerformAction(bool IsUp);
 };
 
@@ -62,7 +75,7 @@ public:
 class Second : public TimeLabelCounter
 {
 public:
-    Second(int start_value, QLabel *lb);
+    Second(int start_value, QLabel *lb, TimeLabelCounter* nextGreater);
 };
 
 class TimerManager
