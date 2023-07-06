@@ -28,10 +28,10 @@ void MainWindow::wheelEvent(QWheelEvent* e)
     }
     qDebug() << "primary Scale factor:" << QGuiApplication::primaryScreen()->logicalDotsPerInch();
 
-    if(e->pos().x() > ui->label_2->pos().x() &&
-       e->pos().x() < ui->label_2->pos().x() + ui->label_2->size().width() &&
-       e->pos().y() > ui->label_2->pos().y() &&
-       e->pos().y() < ui->label_2->pos().y() + ui->label_2->size().height())
+    if(e->pos().x() > ui->minutesLabel->pos().x() &&
+       e->pos().x() < ui->minutesLabel->pos().x() + ui->minutesLabel->size().width() &&
+       e->pos().y() > ui->minutesLabel->pos().y() &&
+       e->pos().y() < ui->minutesLabel->pos().y() + ui->minutesLabel->size().height())
     {
         static int counter = 0;
         qDebug() << "Counter " << counter++ << '\n';
