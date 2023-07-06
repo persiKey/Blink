@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Blink</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -36,22 +36,6 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <spacer name="horizontalSpacer_8">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QTextEdit" name="textEdit"/>
-        </item>
-        <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -65,10 +49,49 @@
          </spacer>
         </item>
         <item>
-         <widget class="QTextEdit" name="textEdit_2"/>
+         <widget class="QLabel" name="label_2">
+          <property name="font">
+           <font>
+            <pointsize>125</pointsize>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string>05</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_9">
+         <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <pointsize>48</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="font">
+           <font>
+            <pointsize>125</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>30</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_8">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -115,6 +138,11 @@
         </item>
         <item>
          <widget class="QCheckBox" name="checkBox">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>Sound</string>
           </property>
@@ -135,6 +163,11 @@
         </item>
         <item>
          <widget class="QCheckBox" name="checkBox_2">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>Animation</string>
           </property>
@@ -155,6 +188,11 @@
         </item>
         <item>
          <widget class="QCheckBox" name="checkBox_3">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>Music</string>
           </property>
