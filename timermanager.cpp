@@ -71,3 +71,8 @@ void TimerManager::ChangeSeconds(bool IsUp)
     seconds.PerformAction(IsUp);
 }
 
+int TimerManager::GetSeconds()
+{
+    return minutes.Value() * 60 + seconds.Value();
+}
+

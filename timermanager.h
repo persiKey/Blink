@@ -82,11 +82,12 @@ private:
     Minute minutes;
     Second seconds;
 
-    ;
 public:
     TimerManager(QLabel* lb_min, QLabel* lb_sec);
     void ChangeMinutes(bool IsUp);
     void ChangeSeconds(bool IsUp);
+
+    int GetSeconds();
 
 };
 
