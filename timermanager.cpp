@@ -47,7 +47,6 @@ QString TimeLabelCounter::ConverFromIntToDisplayString(int value)
     if(value >= 10)
         return QString::number(value);
 
-
     QString result = "0 ";
     result[1] = static_cast<char>(value) + '0';
 
@@ -57,9 +56,7 @@ QString TimeLabelCounter::ConverFromIntToDisplayString(int value)
 
 TimerManager::TimerManager(QLabel* lb_min, QLabel* lb_sec) :
     minutes(MINUTES_DEFAULT, lb_min), seconds(SECONDS_DEFAULT, lb_sec, &minutes)
-{
-
-}
+{}
 
 void TimerManager::ChangeMinutes(bool IsUp)
 {

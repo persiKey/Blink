@@ -19,10 +19,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_blinkButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     TimerManager* timerManager;
     bool IsCursorOnLabel(QPoint p, QLabel* lb);
+    void PlayAnimation();
 
 };
 #endif // MAINWINDOW_H

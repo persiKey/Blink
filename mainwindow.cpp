@@ -4,7 +4,9 @@
 
 #include "QDebug"
 #include "QScreen"
+#include <QDesktopWidget>
 
+#include <thread>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -44,4 +46,31 @@ bool MainWindow::IsCursorOnLabel(QPoint p, QLabel *lb)
             cursor_x < label_x + lb->size().width() &&
             cursor_y > label_y &&
             cursor_y < label_y + lb->size().height();
+}
+
+void MainWindow::PlayAnimation()
+{
+    using std::chrono::operator""s;
+    std::this_thread::sleep_for(5s);
+    QWidget* a = new QWidget();
+
+    a->setFocusPolicy(Qt::NoFocus);
+    a->setWindowFlag(Qt::WindowTransparentForInput, true);
+    a->setWindowFlag(Qt::WindowStaysOnTopHint, true);
+    //a->setWindowState(Qt::WindowFullScreen);
+    a->setWindowOpacity(0.5);
+    a->setStyleSheet("background-color: orange;");
+
+    QRect screenres = QApplication::desktop()->screenGeometry(0);
+    a->move(QPoint(screenres.x(), screenres.y()));
+    a->resize(screenres.width(), screenres.height());
+    a->showFullScreen();
+    //a->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
+    //a->show();
+}
+
+
+void MainWindow::on_blinkButton_clicked()
+{
+    PlayAnimation();
 }
