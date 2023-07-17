@@ -1,14 +1,15 @@
 #include "timermanager.h"
+#include "constants.h"
 
-Minute::Minute(int start_value, QLabel *lb) : TimeLabelCounter(start_value, 1, 0 , 10, lb)
-{
+using namespace constants::Time;
 
-}
+Minute::Minute(int start_value, QLabel *lb) :
+    TimeLabelCounter(start_value, MINUTES_STEP, MINUTES_MIN , MINUTES_MAX, lb)
+{}
 
-Second::Second(int start_value, QLabel *lb, TimeLabelCounter* nextGreater) : TimeLabelCounter(start_value, 5, 0, 60, lb, nextGreater)
-{
-
-}
+Second::Second(int start_value, QLabel *lb, TimeLabelCounter* nextGreater) :
+    TimeLabelCounter(start_value, SECONDS_STEP, SECONDS_MIN, SECONDS_MAX, lb, nextGreater)
+{}
 
 TimeLabelCounter::TimeLabelCounter(int value, int step, int min_value, int max_value, QLabel *lb, TimeLabelCounter* nextGreater) :
     Incrementable<int>(value, step, min_value, max_value), _lb(lb), _nextGreater(nextGreater)
@@ -44,9 +45,8 @@ void TimeLabelCounter::PerformAction(bool IsUp)
 QString TimeLabelCounter::ConverFromIntToDisplayString(int value)
 {
     if(value >= 10)
-    {
         return QString::number(value);
-    }
+
 
     QString result = "0 ";
     result[1] = static_cast<char>(value) + '0';
@@ -55,7 +55,8 @@ QString TimeLabelCounter::ConverFromIntToDisplayString(int value)
 }
 
 
-TimerManager::TimerManager(QLabel* lb_min, QLabel* lb_sec) : minutes(5, lb_min), seconds(30, lb_sec, &minutes)
+TimerManager::TimerManager(QLabel* lb_min, QLabel* lb_sec) :
+    minutes(MINUTES_DEFAULT, lb_min), seconds(SECONDS_DEFAULT, lb_sec, &minutes)
 {
 
 }

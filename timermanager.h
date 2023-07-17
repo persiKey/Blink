@@ -28,7 +28,7 @@ public:
         JumpedOverLimitValue = next_value >= _max_value;
 
         if(JumpedOverLimitValue)
-            _value = next_value % _step;
+            _value = _min_value + (next_value  - _max_value);
         else
             _value = next_value;
 
@@ -37,10 +37,10 @@ public:
     bool virtual Decrement()
     {
         T next_value = _value - _step;
-        JumpedOverLimitValue = next_value < _min_value;
+        JumpedOverLimitValue = next_value <= _min_value;
 
         if(JumpedOverLimitValue)
-            _value = _max_value - _step;
+            _value = _max_value - (_min_value  - next_value);
         else
             _value = next_value;
 
