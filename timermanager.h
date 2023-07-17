@@ -13,6 +13,7 @@ protected:
     T _step;
     T _min_value;
     T _max_value;
+    bool JumpedOverLimitValue = true;
 public:
     Incrementable(T value, T step, T min_value, T max_value) :
         _value(value), _step(step) , _min_value(min_value), _max_value(max_value)
@@ -23,30 +24,27 @@ public:
 
     bool virtual Increment()
     {
-        bool isJumpedOver = false;
         T next_value = _value + _step;
-        if(next_value >= _max_value)
-        {
+        JumpedOverLimitValue = next_value >= _max_value;
+
+        if(JumpedOverLimitValue)
             _value = next_value % _step;
-            isJumpedOver = true;
-        }
-        else
-            _value = next_value;
-        return isJumpedOver;
-    }
-    bool virtual Decrement()
-    {
-        bool isJumpedOver = false;
-        T next_value = _value - _step;
-        if(next_value < _min_value)
-        {
-            isJumpedOver = true;
-            _value = _max_value - _step;
-        }
         else
             _value = next_value;
 
-        return isJumpedOver;
+        return JumpedOverLimitValue;
+    }
+    bool virtual Decrement()
+    {
+        T next_value = _value - _step;
+        JumpedOverLimitValue = next_value < _min_value;
+
+        if(JumpedOverLimitValue)
+            _value = _max_value - _step;
+        else
+            _value = next_value;
+
+        return JumpedOverLimitValue;
     }
     T Value()
     {
