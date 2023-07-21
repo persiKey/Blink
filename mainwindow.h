@@ -15,12 +15,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public slots:
     void wheelEvent(QWheelEvent* e) override;
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
     void on_blinkButton_clicked();
+
 
 private:
     Ui::MainWindow *ui;

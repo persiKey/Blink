@@ -6,7 +6,12 @@
 #include "QScreen"
 #include <QDesktopWidget>
 
+#include <QtWin>
 #include <thread>
+
+#include <animwindow.h>
+#include <QPropertyAnimation>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -17,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->resize(constants::WINDOWS_WIDTH * scaleFactor,
                  constants::WINDOWS_HEIGHT * scaleFactor);
+
 
 }
 
@@ -51,22 +57,37 @@ bool MainWindow::IsCursorOnLabel(QPoint p, QLabel *lb)
 void MainWindow::PlayAnimation()
 {
     using std::chrono::operator""s;
-    std::this_thread::sleep_for(5s);
-    QWidget* a = new QWidget();
+    //std::this_thread::sleep_for(5s);
+    QWidget* a = new AnimWindow();
 
-    a->setFocusPolicy(Qt::NoFocus);
-    a->setWindowFlag(Qt::WindowTransparentForInput, true);
-    a->setWindowFlag(Qt::WindowStaysOnTopHint, true);
+
+    //a->setWindowFlag(Qt::SubWindow, true);
+   // a->setWindowFlag(Qt::X11BypassWindowManagerHint, true);
+
     //a->setWindowState(Qt::WindowFullScreen);
-    a->setWindowOpacity(0.5);
-    a->setStyleSheet("background-color: orange;");
+    //a->setWindowOpacity(0.5);
+    //a->setStyleSheet("background-color: rgba(255,255,255,255);");
 
     QRect screenres = QApplication::desktop()->screenGeometry(0);
     a->move(QPoint(screenres.x(), screenres.y()));
     a->resize(screenres.width(), screenres.height());
-    a->showFullScreen();
-    //a->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
-    //a->show();
+
+
+    //a->setAttribute(Qt::WA_TranslucentBackground, true);
+    //a->setAttribute(Qt::WA_NoSystemBackground, true);
+    //a->setAttribute(Qt::WA_AlwaysStackOnTop, true);
+    //a->setAttribute(Qt::WA_OpaquePaintEvent, true);
+
+    //a->showFullScreen();
+    //QtWin::enableBlurBehindWindow(a);
+
+    a->show();
+
+    QPropertyAnimation* anim = new QPropertyAnimation(a,"param");
+    anim->setDuration(3000);
+    anim->setStartValue(0);
+    anim->setEndValue(120);
+    anim->start();
 }
 
 
