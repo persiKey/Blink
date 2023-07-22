@@ -12,12 +12,24 @@ SOURCES += \
     animwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    scipy/cephes/const.c \
+    scipy/cephes/ellie.c \
+    scipy/cephes/ellik.c \
+    scipy/cephes/ellpe.c \
+    scipy/cephes/ellpk.c \
+    scipy/cephes/gamma.c \
+    scipy/cephes/unity.c \
+    scipy/cephes/zeta.c \
     timermanager.cpp
 
 HEADERS += \
     animwindow.h \
     constants.h \
     mainwindow.h \
+    scipy/cephes/cephes.h \
+    scipy/cephes/cephes_names.h \
+    scipy/cephes/mconf.h \
+    scipy/cephes/polevl.h \
     timermanager.h
 
 FORMS += \

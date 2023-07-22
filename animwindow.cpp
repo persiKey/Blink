@@ -1,9 +1,15 @@
+#define __STDCPP_WANT_MATH_SPEC_FUNCS__ 1
+
 #include "animwindow.h"
 #include <QPainter>
 #include <QDebug>
 #include <unordered_set>
 #include <chrono>
 #include <cmath>
+
+
+extern "C" double cephes_ellie ( double phi, double m );
+
 
 float SinFromZeroToHalfPi(float x);
 
@@ -33,7 +39,6 @@ int AnimWindow::getParam()
 
 void AnimWindow::paintEvent(QPaintEvent* e)
 {
-
     const int pr = 300;
     QPointF elipse[pr+1];
     ElipseCalculations EC;
@@ -104,7 +109,13 @@ float ElipseCalculations::GetNormalComponent()
 
 float ElipseCalculations::GetIntegral()
 {
-    float result = 0;
+    auto result = b * cephes_ellie(t,(1 - (a * a)/(b * b)));
+    return b * cephes_ellie(t,(1 - (a * a)/(b * b)));
+    //auto k = std::sqrt(1 - (a * a)/(b * b));
+
+    //elliptic_inc_em(t,(1 - (a * a)/(b * b)));
+    //return b * elliptic_inc_em(t,(1 - (a * a)/(b * b)));
+    //float result = 0;
     float sin_m, cos_m;
     for (float m = 0; m < t ; m += step )
     {
@@ -117,6 +128,10 @@ float ElipseCalculations::GetIntegral()
 
 float ElipseCalculations::GetS()
 {
+    return b * cephes_ellie(2 * PI,(1 - (a * a)/(b * b)));
+    //return b * elliptic_inc_em(PI,(1 - (a * a)/(b * b)));
+    auto k = std::sqrt(1 - (b * b)/(a * a));
+    return a * std::ellint_2(k,2 * PI);
     float result = 0;
     float sin_m, cos_m;
     for (float m = 0; m < 2 * PI ; m += step )
@@ -125,6 +140,11 @@ float ElipseCalculations::GetS()
         cos_m = sin(HALF_PI - m);
         result += step * sqrt(b * b * cos_m * cos_m + a * a * sin_m * sin_m);
     }
+    auto sr = std::sqrt(1 - (a * a)/(b * b));
+   // auto sr2 = std::sqrt(1 - (b * b)/(a * a));
+    auto sr3 = std::sqrt(abs(1 - (a * a)/(b * b)));
+    //auto check_res = a * std::ellint_2(sr2,2 * PI);
+
     return result;
 }
 
