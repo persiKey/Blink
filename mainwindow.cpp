@@ -11,6 +11,7 @@
 
 #include <animwindow.h>
 #include <QPropertyAnimation>
+#include <QSequentialAnimationGroup>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -58,7 +59,7 @@ void MainWindow::PlayAnimation()
 {
     using std::chrono::operator""s;
     //std::this_thread::sleep_for(5s);
-    QWidget* a = new AnimWindow();
+    AnimWindow* a = new AnimWindow();
 
 
     //a->setWindowFlag(Qt::SubWindow, true);
@@ -82,12 +83,8 @@ void MainWindow::PlayAnimation()
     //QtWin::enableBlurBehindWindow(a);
 
     a->show();
+    a->StartAnimation();
 
-    QPropertyAnimation* anim = new QPropertyAnimation(a,"param");
-    anim->setDuration(3000);
-    anim->setStartValue(0);
-    anim->setEndValue(120);
-    anim->start();
 }
 
 

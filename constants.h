@@ -20,6 +20,14 @@ namespace constants
         inline constexpr int SECONDS_DEFAULT = 30;
         inline constexpr int MINUTES_DEFAULT = 4;
     }
+
+    namespace Animation
+    {
+        inline constexpr int AMOUNT_OF_POINTS = 400;
+        inline constexpr float WAVE_AMPLITUDE = 20;
+        inline constexpr int AMOUNT_OF_WAVES = 20;
+        inline constexpr int ANIMMATION_DURATION = 3000;
+    }
 }
 
 #endif // CONSTANTS_H

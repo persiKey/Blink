@@ -23,7 +23,6 @@ public:
 private slots:
     void on_blinkButton_clicked();
 
-
 private:
     Ui::MainWindow *ui;
     TimerManager* timerManager;
