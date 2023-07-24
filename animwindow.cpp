@@ -19,16 +19,14 @@ AnimWindow::AnimWindow(QWidget *parent) : QWidget(parent)
                          Qt::FramelessWindowHint |
                          Qt::MaximizeUsingFullscreenGeometryHint);
 
-    closeAnim = new QPropertyAnimation(&elipse,"bDiff");
+    closeAnim = new QPropertyAnimation(&elipse, "bDiff");
     closeAnim->setStartValue(0);
-    closeAnim->setEndValue(300);
-    closeAnim->setDuration(ANIMMATION_DURATION/2);
+    closeAnim->setDuration(ANIMATION_DURATION/2);
     closeAnim->setEasingCurve(QEasingCurve::InCubic);
 
-    openAnim = new QPropertyAnimation(&elipse,"bDiff");
-    openAnim->setStartValue(300);
+    openAnim = new QPropertyAnimation(&elipse, "bDiff");
     openAnim->setEndValue(0);
-    openAnim->setDuration(ANIMMATION_DURATION/2);
+    openAnim->setDuration(ANIMATION_DURATION/2);
     openAnim->setEasingCurve(QEasingCurve::OutCubic);
 
     bAnim  =  new QSequentialAnimationGroup;
@@ -38,26 +36,21 @@ AnimWindow::AnimWindow(QWidget *parent) : QWidget(parent)
 
     phaseAnim = new QPropertyAnimation(&elipse,"phase");
     phaseAnim->setStartValue(0);
-    phaseAnim->setEndValue(100);
-    phaseAnim->setDuration(ANIMMATION_DURATION);
+    phaseAnim->setEndValue(PHASE_MAX);
+    phaseAnim->setDuration(ANIMATION_DURATION);
 
     mainAnim = new QParallelAnimationGroup;
     mainAnim->addAnimation(bAnim);
     mainAnim->addAnimation(phaseAnim);
+
     QObject::connect(mainAnim,SIGNAL(finished()),this,SLOT(close()));
+    QObject::connect(phaseAnim,SIGNAL(valueChanged(const QVariant &)),this,SLOT(update()));
+
 }
 
 void AnimWindow::StartAnimation()
 {
     mainAnim->start();
-    std::thread([this]() {
-        while(this->mainAnim->state() != QAbstractAnimation::Stopped)
-        {
-            this->update();
-            std::this_thread::sleep_for(std::chrono::operator""ms(10));
-        }
-    }).detach();
-
 }
 
 
@@ -76,6 +69,11 @@ void AnimWindow::paintEvent(QPaintEvent* )
 
 void AnimWindow::resizeEvent(QResizeEvent *event)
 {
+    int maxBDiff = event->size().height() / 3;
+
+    closeAnim->setEndValue(maxBDiff);
+    openAnim->setStartValue(maxBDiff);
+
     elipse.setDrawAreaSize(event->size());
 }
 
