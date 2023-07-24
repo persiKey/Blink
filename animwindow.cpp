@@ -43,13 +43,16 @@ AnimWindow::AnimWindow(QWidget *parent) : QWidget(parent)
     mainAnim->addAnimation(bAnim);
     mainAnim->addAnimation(phaseAnim);
 
-    QObject::connect(phaseAnim,SIGNAL(valueChanged(const QVariant &)),this,SLOT(update()));
-    QObject::connect(mainAnim,SIGNAL(finished()),this,SLOT(OnAnimationEnd()));
+    updateTimer.setInterval(1000.f/FPS);
+    updateTimer.setSingleShot(false);
+    QObject::connect(&updateTimer, SIGNAL(timeout()), this, SLOT(update()));
 
+    QObject::connect(mainAnim,SIGNAL(finished()),this,SLOT(OnAnimationEnd()));
 }
 
 void AnimWindow::StartAnimation()
 {
+    updateTimer.start();
     mainAnim->start();
 }
 

@@ -5,6 +5,8 @@
 #include <QPropertyAnimation>
 #include <QSequentialAnimationGroup>
 #include <QParallelAnimationGroup>
+#include <QTimer>
+
 #include "constants.h"
 
 using namespace constants::Animation;
@@ -61,6 +63,7 @@ private:
     QSequentialAnimationGroup* bAnim;
     QParallelAnimationGroup* mainAnim;
 
+    QTimer updateTimer;
 protected:
     void paintEvent(QPaintEvent* e) override;
     void resizeEvent(QResizeEvent *event) override;
@@ -70,6 +73,7 @@ public:
     void StartAnimation();
 public slots:
     void OnAnimationEnd();
+
 signals:
     void finished();
 };

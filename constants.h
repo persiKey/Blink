@@ -28,6 +28,7 @@ namespace constants
         inline constexpr int AMOUNT_OF_WAVES = 20;
         inline constexpr int ANIMATION_DURATION = 3000;
         inline constexpr int PHASE_MAX = 100;
+        inline constexpr int FPS = 60;
     }
 }
 
