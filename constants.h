@@ -26,9 +26,14 @@ namespace constants
         inline constexpr int AMOUNT_OF_POINTS = 400;
         inline constexpr float WAVE_AMPLITUDE = 20;
         inline constexpr int AMOUNT_OF_WAVES = 20;
-        inline constexpr int ANIMATION_DURATION = 3000;
+        inline constexpr int ANIMATION_DURATION = 1500;
         inline constexpr int PHASE_MAX = 100;
         inline constexpr int FPS = 60;
+    }
+
+    namespace Sound
+    {
+        inline constexpr int AMOUNT_OF_SOUNDS = 4;
     }
 }
 
