@@ -13,13 +13,13 @@ class WavyEllipseDrawer : public QObject
 {
     Q_OBJECT
 private:
-    Q_PROPERTY(float bDiff READ getB WRITE setB);
+    Q_PROPERTY(float bDiff READ getBDiff WRITE setBDiff);
     Q_PROPERTY(float phase READ getPhase WRITE setPhase);
 
-    void setB(float newB);
+    void setBDiff(float newBDiff);
     void setPhase(float newPhase);
 
-    float getB();
+    float getBDiff();
     float getPhase();
 
     float t;
@@ -38,8 +38,7 @@ private:
     float cos_t;
 
     float GetNormalComponent();
-    float GetIntegral();
-    float GetS();
+    float GetArcLenghtCoef();
     float GetMultiplyComponent();
     QPointF GetPoint();
 

@@ -98,9 +98,9 @@ float SinFromZeroToPi(float x)
 }
 
 
-void WavyEllipseDrawer::setB(float newB)
+void WavyEllipseDrawer::setBDiff(float newBDiff)
 {
-    bDiff = newB;
+    bDiff = newBDiff;
     b = B - bDiff;
 }
 
@@ -109,7 +109,7 @@ void WavyEllipseDrawer::setPhase(float newPhase)
     phase = newPhase;
 }
 
-float WavyEllipseDrawer::getB()
+float WavyEllipseDrawer::getBDiff()
 {
     return bDiff;
 }
@@ -124,19 +124,15 @@ float WavyEllipseDrawer::GetNormalComponent()
     return 1/sqrt(b * b * cos_t * cos_t + a * a * sin_t * sin_t);
 }
 
-float WavyEllipseDrawer::GetIntegral()
+float WavyEllipseDrawer::GetArcLenghtCoef()
 {
-    return cephes_ellie(t,(1 - (a * a)/(b * b)));
-}
-
-float WavyEllipseDrawer::GetS()
-{
-    return cephes_ellie(2 * M_PI,(1 - (a * a)/(b * b)));
+    return cephes_ellie(t,(1 - (a * a)/(b * b))) /
+            cephes_ellie(2 * M_PI,(1 - (a * a)/(b * b)));
 }
 
 float WavyEllipseDrawer::GetMultiplyComponent()
 {
-    return waveAmplitude * cos(amountOfWaves * 2 * M_PI * GetIntegral() / GetS() + phase) * GetNormalComponent();
+    return waveAmplitude * cos(amountOfWaves * 2 * M_PI * GetArcLenghtCoef() + phase) * GetNormalComponent();
 }
 
 QPointF WavyEllipseDrawer::GetPoint()
