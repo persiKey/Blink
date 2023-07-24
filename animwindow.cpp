@@ -4,7 +4,7 @@
 #include <chrono>
 #include <cmath>
 #include <QResizeEvent>
-#include <thread>
+
 
 extern "C" double cephes_ellie ( double phi, double m );
 
@@ -19,38 +19,44 @@ AnimWindow::AnimWindow(QWidget *parent) : QWidget(parent)
                          Qt::FramelessWindowHint |
                          Qt::MaximizeUsingFullscreenGeometryHint);
 
-    closeAnim = new QPropertyAnimation(&elipse, "bDiff");
+    closeAnim = new QPropertyAnimation(&elipse, "bDiff", this);
     closeAnim->setStartValue(0);
     closeAnim->setDuration(ANIMATION_DURATION/2);
     closeAnim->setEasingCurve(QEasingCurve::InCubic);
 
-    openAnim = new QPropertyAnimation(&elipse, "bDiff");
+    openAnim = new QPropertyAnimation(&elipse, "bDiff", this);
     openAnim->setEndValue(0);
     openAnim->setDuration(ANIMATION_DURATION/2);
     openAnim->setEasingCurve(QEasingCurve::OutCubic);
 
-    bAnim  =  new QSequentialAnimationGroup;
+    bAnim  =  new QSequentialAnimationGroup(this);
     bAnim->addAnimation(closeAnim);
     bAnim->addAnimation(openAnim);
 
 
-    phaseAnim = new QPropertyAnimation(&elipse,"phase");
+    phaseAnim = new QPropertyAnimation(&elipse,"phase", this);
     phaseAnim->setStartValue(0);
     phaseAnim->setEndValue(PHASE_MAX);
     phaseAnim->setDuration(ANIMATION_DURATION);
 
-    mainAnim = new QParallelAnimationGroup;
+    mainAnim = new QParallelAnimationGroup(this);
     mainAnim->addAnimation(bAnim);
     mainAnim->addAnimation(phaseAnim);
 
-    QObject::connect(mainAnim,SIGNAL(finished()),this,SLOT(close()));
     QObject::connect(phaseAnim,SIGNAL(valueChanged(const QVariant &)),this,SLOT(update()));
+    QObject::connect(mainAnim,SIGNAL(finished()),this,SLOT(OnAnimationEnd()));
 
 }
 
 void AnimWindow::StartAnimation()
 {
     mainAnim->start();
+}
+
+void AnimWindow::OnAnimationEnd()
+{
+    this->close();
+    emit finished();
 }
 
 

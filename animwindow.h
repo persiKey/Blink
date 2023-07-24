@@ -61,13 +61,17 @@ private:
     QSequentialAnimationGroup* bAnim;
     QParallelAnimationGroup* mainAnim;
 
-public:
-    explicit AnimWindow(QWidget *parent = nullptr);
-    void StartAnimation();
 protected:
     void paintEvent(QPaintEvent* e) override;
     void resizeEvent(QResizeEvent *event) override;
 
+public:
+    explicit AnimWindow(QWidget *parent = nullptr);
+    void StartAnimation();
+public slots:
+    void OnAnimationEnd();
+signals:
+    void finished();
 };
 
 

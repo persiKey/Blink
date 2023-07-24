@@ -5,6 +5,7 @@
 #include <QWheelEvent>
 #include <QLabel>
 #include "timermanager.h"
+#include "animwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,7 +16,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public slots:
     void wheelEvent(QWheelEvent* e) override;
-
+    void PrepareAnimation();
+    void ClearAnimation();
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -26,8 +28,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     TimerManager* timerManager;
+    AnimWindow *animWindows;
+    int amountOfDisplaysLeft;
     bool IsCursorOnLabel(QPoint p, QLabel* lb);
-    void PlayAnimation();
 
 };
 #endif // MAINWINDOW_H
