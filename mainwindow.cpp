@@ -21,11 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->resize(constants::WINDOWS_WIDTH * scaleFactor,
                  constants::WINDOWS_HEIGHT * scaleFactor);
-    sounds = new QSound*[constants::Sound::AMOUNT_OF_SOUNDS];
-    for(int i = 1; i <= constants::Sound::AMOUNT_OF_SOUNDS; ++i )
-    {
-        sounds[i-1] = new QSound("../Blink/sound/blink" + QString::number(i)+ ".wav", this);
-    }
+
 
 }
 
@@ -59,7 +55,6 @@ bool MainWindow::IsCursorOnLabel(QPoint p, QLabel *lb)
 
 void MainWindow::PrepareAnimation()
 {
-    //QSound::play("../Blink/sound/blink1.wav");
     int amountOfDisplays = amountOfDisplaysLeft = QGuiApplication::screens().size();
 
     animWindows = new AnimWindow[amountOfDisplays];
@@ -73,8 +68,7 @@ void MainWindow::PrepareAnimation()
         animWindows[i].StartAnimation();
         QObject::connect(animWindows + i,SIGNAL(finished()),this,SLOT(ClearAnimation()));
     }
-    sounds[rand() % constants::Sound::AMOUNT_OF_SOUNDS]->play();
-
+    sound.PlayRandomSound();
 /*
 
     //a->setWindowFlag(Qt::SubWindow, true);

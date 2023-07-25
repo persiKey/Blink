@@ -19,6 +19,7 @@ SOURCES += \
     scipy/cephes/gamma.c \
     scipy/cephes/unity.c \
     scipy/cephes/zeta.c \
+    soundmanager.cpp \
     timermanager.cpp
 
 HEADERS += \
@@ -29,6 +30,7 @@ HEADERS += \
     scipy/cephes/cephes_names.h \
     scipy/cephes/mconf.h \
     scipy/cephes/polevl.h \
+    soundmanager.h \
     timermanager.h
 
 FORMS += \

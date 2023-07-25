@@ -5,9 +5,12 @@
 #include <QWheelEvent>
 #include <QLabel>
 #include <QSound>
+
 #include "timermanager.h"
 #include "animwindow.h"
 #include "constants.h"
+#include "soundmanager.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -31,7 +34,8 @@ private:
     TimerManager* timerManager;
     AnimWindow *animWindows;
     int amountOfDisplaysLeft;
+    SoundManager sound;
+
     bool IsCursorOnLabel(QPoint p, QLabel* lb);
-    QSound **sounds;
 };
 #endif // MAINWINDOW_H
