@@ -22,7 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     this->resize(constants::WINDOWS_WIDTH * scaleFactor,
                  constants::WINDOWS_HEIGHT * scaleFactor);
 
-
+    mainTimer.setSingleShot(false);
+    QObject::connect(&mainTimer,SIGNAL(timeout()), this, SLOT(TimeoutActions()));
 }
 
 void MainWindow::wheelEvent(QWheelEvent* e)
@@ -33,6 +34,17 @@ void MainWindow::wheelEvent(QWheelEvent* e)
         timerManager->ChangeMinutes(IsUp);
     else if(IsCursorOnLabel(cursorPos,ui->secondsLabel))
         timerManager->ChangeSeconds(IsUp);
+}
+
+void MainWindow::TimeoutActions()
+{
+    if(ui->soundCheckBox->isChecked())
+        sound.PlayRandomSound();
+    if(ui->animtaionCheckBox->isChecked())
+        PrepareAnimation();
+    if(ui->musicCheckBox->isChecked())
+    {}
+
 }
 
 MainWindow::~MainWindow()
@@ -68,7 +80,7 @@ void MainWindow::PrepareAnimation()
         animWindows[i].StartAnimation();
         QObject::connect(animWindows + i,SIGNAL(finished()),this,SLOT(ClearAnimation()));
     }
-    sound.PlayRandomSound();
+
 /*
 
     //a->setWindowFlag(Qt::SubWindow, true);
@@ -95,5 +107,7 @@ void MainWindow::ClearAnimation()
 
 void MainWindow::on_blinkButton_clicked()
 {
-    PrepareAnimation();
+    mainTimer.setInterval(timerManager->GetSeconds()*1000);
+    mainTimer.start();
+    this->hide();
 }

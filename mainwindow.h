@@ -20,6 +20,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 public slots:
     void wheelEvent(QWheelEvent* e) override;
+    void TimeoutActions();
     void PrepareAnimation();
     void ClearAnimation();
 public:
@@ -35,6 +36,7 @@ private:
     AnimWindow *animWindows;
     int amountOfDisplaysLeft;
     SoundManager sound;
+    QTimer mainTimer;
 
     bool IsCursorOnLabel(QPoint p, QLabel* lb);
 };
